@@ -1,14 +1,15 @@
 return {
 	"lukas-reineke/indent-blankline.nvim",
+	main = "ibl",
 	event = { "BufReadPre", "BufNewFile" },
 	config = function()
 		-- import indent_blankline plugin safely
-		local indent_blankline = require("indent_blankline")
+		local ibl = require("ibl")
 
 		-- enable indent_blankline
-		indent_blankline.setup({
-			char = "┊",
-			show_trailing_blankline_indent = false,
+		ibl.setup({
+			indent = { char = "┊" },
+			-- show_trailing_blankline_indent = false,
 		})
 	end,
 }
