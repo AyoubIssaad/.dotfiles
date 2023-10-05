@@ -4,6 +4,7 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		build = ":TSUpdate",
 		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
 			"windwp/nvim-ts-autotag",
 		},
 		config = function()
@@ -22,8 +23,8 @@ return {
 					keymaps = {
 						init_selection = "<c-space>",
 						node_incremental = "<c-space>",
-						scope_incremental = "<c-s>",
-						node_decremental = "<c-backspace>",
+						scope_incremental = false,
+						node_decremental = "<bs>",
 					},
 				},
 				-- enable autotagging (w/ nvim-ts-autotag plugin)

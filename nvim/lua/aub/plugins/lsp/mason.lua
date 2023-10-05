@@ -45,6 +45,8 @@ return {
 			ensure_installed = {
 				"prettier", -- ts/js formatter
 				"stylua", -- lua formatter
+				"black",
+				"isort",
 				"eslint_d", -- ts/js linter
 				"flake8",
 			},
