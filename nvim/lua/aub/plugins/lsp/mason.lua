@@ -31,6 +31,7 @@ return {
 				"tsserver",
 				"html",
 				"cssls",
+				"gopls",
 				"lua_ls",
 				"emmet_ls",
 				"pyright",
@@ -47,6 +48,7 @@ return {
 				"stylua", -- lua formatter
 				"black",
 				"isort",
+				"gofumpt",
 				"eslint_d", -- ts/js linter
 				"flake8",
 			},
