@@ -42,7 +42,6 @@ return {
 					"http",
 					"css",
 					"rust",
-					"help",
 					"comment",
 					"go",
 					"prisma",
