@@ -36,6 +36,7 @@ return {
 				}),
 				-- diagnostics.flake8,
 				diagnostics.flake8,
+				-- diagnostics.ruff,
 				diagnostics.shellcheck,
 			},
 			-- configure format on save

@@ -1,5 +1,6 @@
 return {
 	"williamboman/mason.nvim",
+	enabled = true,
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
 		"jayp0521/mason-null-ls.nvim",
@@ -35,6 +36,7 @@ return {
 				"lua_ls",
 				"emmet_ls",
 				"pyright",
+				"ruff_lsp",
 				-- "prismals",
 			},
 			-- auto-install configured servers (with lspconfig)
@@ -51,6 +53,7 @@ return {
 				"gofumpt",
 				"eslint_d", -- ts/js linter
 				"flake8",
+				"ruff",
 			},
 			-- auto-install configured servers (with lspconfig)
 			automatic_installation = true,
