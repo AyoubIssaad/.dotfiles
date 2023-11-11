@@ -34,6 +34,8 @@ return {
 					"json",
 					"javascript",
 					"typescript",
+					"terraform",
+					"hcl",
 					"tsx",
 					"yaml",
 					"html",
