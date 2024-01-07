@@ -23,7 +23,8 @@ return {
 				--  to disable file types use
 				--  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
 				formatting.prettier.with({
-					extra_filetypes = { "svelte" },
+					extra_filetypes = { "" },
+					disabled_filetypes = { "markdown" },
 				}), -- js/ts formatter
 				formatting.stylua, -- lua formatter
 				formatting.black,
