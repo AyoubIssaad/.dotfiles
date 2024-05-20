@@ -4,8 +4,14 @@ return {
 	dependencies = {
 		"hrsh7th/cmp-buffer", -- source for text in buffer
 		"hrsh7th/cmp-path", -- source for file system paths
-		"onsails/lspkind.nvim",
-		"L3MON4D3/LuaSnip", -- snippet engine
+		"onsails/lspkind.nvim", -- vs-code like pictograms
+		{
+			"L3MON4D3/LuaSnip",
+			-- follow latest release.
+			version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+			-- install jsregexp (optional!).
+			build = "make install_jsregexp",
+		},
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
 		"rafamadriz/friendly-snippets", -- useful snippets
 	},
@@ -19,8 +25,11 @@ return {
 		-- load vs-code like snippets from plugins (e.g. friendly-snippets)
 		require("luasnip.loaders.from_vscode").lazy_load()
 
-		vim.opt.completeopt = "menu,menuone,noselect"
+		-- vim.opt.completeopt = "menu,menuone,noselect"
 		cmp.setup({
+			completion = {
+				completeopt = "menu,menuone,preview,noselect",
+			},
 			snippet = {
 				expand = function(args)
 					luasnip.lsp_expand(args.body)

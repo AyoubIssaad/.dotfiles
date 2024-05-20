@@ -6,7 +6,7 @@ return {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		"nvim-telescope/telescope-ui-select.nvim",
 		"nvim-tree/nvim-web-devicons",
-		-- "ThePrimeagen/harpoon",
+		"folke/todo-comments.nvim",
 	},
 	config = function()
 		-- import telescope plugin safely
@@ -15,31 +15,42 @@ return {
 		-- import telescope actions safely
 		local actions = require("telescope.actions")
 
+		local transform_mod = require("telescope.actions.mt").transform_mod
+
+		local trouble = require("trouble")
+		local trouble_telescope = require("trouble.providers.telescope")
+		-- or create your custom action
+		local custom_actions = transform_mod({
+			open_trouble_qflist = function(prompt_bufnr)
+				trouble.toggle("quickfix")
+			end,
+		})
 		-- import telescope-ui-select safely
-		local themes = require("telescope.themes")
+		-- local themes = require("telescope.themes")
 
 		-- configure telescope
 		telescope.setup({
 			-- configure custom mappings
 			defaults = {
-				path_display = { "truncate" },
+				path_display = { "smart" },
 				mappings = {
 					i = {
 						["<C-k>"] = actions.move_selection_previous, -- move to prev result
 						["<C-j>"] = actions.move_selection_next, -- move to next result
-						["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist, -- send selected to quickfixlist
+						["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist, -- send selected to quickfixlist
+						["<C-t>"] = trouble_telescope.smart_open_with_trouble,
 					},
 				},
 			},
 			extensions = {
-				["ui-select"] = {
-					themes.get_dropdown({}),
-				},
+				-- ["ui-select"] = {
+				-- 	themes.get_dropdown({}),
+				-- },
 			},
 		})
 
 		telescope.load_extension("fzf")
-		telescope.load_extension("ui-select")
+		-- telescope.load_extension("ui-select")
 		-- telescope.load_extension("harpoon")
 
 		-- set keymaps
@@ -51,7 +62,7 @@ return {
 		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" }) -- find string under cursor in current working directory
 		keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Show open buffers" }) -- list open buffers in current neovim instance
 		keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
-		keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>") -- list available help tags
+		keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find Todos" }) -- list available help tags
 		keymap.set("n", "<leader>fd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 		-- keymap.set("n", "<leader>hf", "<cmd>Telescope harpoon marks<cr>", { desc = "Show harpoon marks" }) -- show harpoon marks
 		keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Show git commits" }) -- list all git commits (use <cr> to checkout) ["gc" for git commits]

@@ -7,6 +7,7 @@ fi
 
 # Created by newuser for 5.9
 source ~/powerlevel10k/powerlevel10k.zsh-theme
+alias tf=terraform
 
 # Add gopath
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"

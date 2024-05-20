@@ -36,7 +36,7 @@ return {
 					"typescript",
 					"terraform",
 					"hcl",
-					"tsx",
+					-- "tsx",
 					"yaml",
 					"html",
 					"c",
@@ -46,11 +46,11 @@ return {
 					"rust",
 					"comment",
 					"go",
-					"prisma",
+					-- "prisma",
 					"markdown",
 					"markdown_inline",
-					"svelte",
-					"graphql",
+					-- "svelte",
+					-- "graphql",
 					"bash",
 					"lua",
 					"vim",
@@ -60,11 +60,11 @@ return {
 					"regex",
 					"python",
 				},
-				-- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
-				require("ts_context_commentstring").setup({
-					enable = true,
-					enable_autocmd = false,
-				}),
+				-- -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
+				-- require("ts_context_commentstring").setup({
+				-- 	enable = true,
+				-- 	enable_autocmd = false,
+				-- }),
 				-- auto install above language parsers
 				auto_install = true,
 			})
