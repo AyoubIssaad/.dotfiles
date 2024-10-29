@@ -2,6 +2,9 @@ vim.cmd("let g:netrw_liststyle = 3")
 
 local opt = vim.opt -- for conciseness
 
+-- Nerd Font
+vim.g.have_nerd_font = true
+
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.number = true -- shows absolute line number on cursor line (when relative number is on)
@@ -11,10 +14,16 @@ opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 opt.shiftwidth = 2 -- 2 spaces for indent width
 opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
--- opt.breakindent = true
+opt.breakindent = true
+
+-- Mouse Mode
+opt.mouse = "a"
 
 -- line wrapping
 opt.wrap = false -- disable line wrapping
+
+-- Don't show mode, since it's already in status line
+opt.showmode = false
 
 -- search settings
 opt.ignorecase = true -- ignore case when searching
@@ -53,14 +62,19 @@ opt.scrolloff = 3
 
 -- Set an undo file to keep history of changes
 -- set undodir=~/.vim/undodir
-opt.undodir = vim.fn.stdpath("config") .. "/undodir"
+opt.undodir = { vim.fn.stdpath("config") .. "/undodir" }
 -- opt.undodir = "~/.config/nvim/undodir"
 opt.undofile = true
 -- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
+opt.updatetime = 250
+opt.timeout = true
+opt.timeoutlen = 300
 
 -- Spell checking configuration
 opt.spelllang = "en_us"
 -- opt.spell = true
+-- Set how neovim will display certain whitespace characters in the editor [ INFO:May interfere with another plugin that shows vertical lines]
+-- opt.list = true
+-- opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+-- Preview substitutions live, as you type!
+vim.opt.inccommand = "split"
