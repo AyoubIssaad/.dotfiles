@@ -6,7 +6,7 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
-      -- "JoosepAlviste/nvim-ts-context-commentstring",
+      "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
       -- import nvim-treesitter plugin
@@ -75,10 +75,10 @@ return {
           max_file_lines = 1000,
         },
         -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
-        -- require("ts_context_commentstring").setup({
-        --   enable = true,
-        --   enable_autocmd = false,
-        -- }),
+        require("ts_context_commentstring").setup({
+          enable = true,
+          enable_autocmd = false,
+        }),
         -- auto install above language parsers
         auto_install = true,
       })
