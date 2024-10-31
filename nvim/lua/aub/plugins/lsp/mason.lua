@@ -56,6 +56,7 @@ return {
         "eslint_d",
         "flake8",
         "golangci-lint",
+        "golangci-lint-langserver",
       },
     })
     -- mason_null_ls.setup({
