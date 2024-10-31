@@ -7,22 +7,10 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     { "j-hui/fidget.nvim", opts = {} },
     "hrsh7th/cmp-nvim-lsp",
-    { "antosha417/nvim-lsp-file-operations", config = true },
-    { "j-hui/fidget.nvim", opt = {} },
+    -- { "antosha417/nvim-lsp-file-operations", config = true },
     -- { "folke/neodev.nvim", opts = {} },
   },
   config = function()
-    -- import lspconfig plugin
-    -- local lspconfig = require("lspconfig")
-
-    -- import mason_lspconfig plugin
-    -- local mason_lspconfig = require("mason-lspconfig")
-
-    -- import cmp-nvim-lsp plugin
-    -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-    -- local keymap = vim.keymap -- for conciseness
-
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
       callback = function(event)
@@ -66,53 +54,9 @@ return {
         map("K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
         map("<leader>rs", ":LspRestart<CR>", "Restart LSP")
 
-        -- Buffer local mappings.
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        -- local opts = { buffer = event.buf, silent = true }
-
-        -- set keybinds
-        -- opts.desc = "Show LSP references"
-        -- keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-
-        -- opts.desc = "Go to declaration"
-        -- keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-
-        -- opts.desc = "Show LSP definitions"
-        -- keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-
-        -- opts.desc = "Show LSP implementations"
-        -- keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
-        -- opts.desc = "Show LSP type definitions"
-        -- keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
-        -- opts.desc = "See available code actions"
-        -- keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
-        -- opts.desc = "Smart rename"
-        -- keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-
-        -- opts.desc = "Show buffer diagnostics"
-        -- keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-        --
-        -- opts.desc = "Show line diagnostics"
-        -- keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-        --
-        -- opts.desc = "Go to previous diagnostic"
-        -- keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-        --
-        -- opts.desc = "Go to next diagnostic"
-        -- keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-        --
-        -- opts.desc = "Show documentation for what is under cursor"
-        -- keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-        --
-        -- opts.desc = "Restart LSP"
-        -- keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
         -- The following two autocommands are used to highlight references of the
         -- word under your cursor when your cursor rests there for a little while.
         --    See `:help CursorHold` for information about when this is executed
-        --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
@@ -149,8 +93,6 @@ return {
       end,
     })
 
-    -- local opts = { noremap = true, silent = true }
-
     -- LSP servers and clients are able to communicate to each other what features they support.
     --  By default, Neovim doesn't support everything that is in the LSP specification.
     --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
@@ -169,8 +111,53 @@ return {
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
     local servers = {
       -- clangd = {},
-      -- gopls = {},
-      -- pyright = {},
+      gopls = {
+        settings = {
+          gopls = {
+            analyses = {
+              unusedparams = true,
+              shadow = true,
+              unusedwrite = true,
+              useany = true,
+            },
+            codelenses = {
+              gc_details = true,
+              generate = true,
+              regenerate_cgo = true,
+              tidy = true,
+              upgrade_dependency = true,
+              vendor = true,
+            },
+            experimentalPostfixCompletions = true,
+            staticcheck = true,
+            gofumpt = true,
+            usePlaceholders = true,
+            semanticTokens = true,
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+            importShortcut = "Definition",
+          },
+        },
+      },
+      pyright = {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "workspace",
+            },
+          },
+        },
+      },
       -- rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
@@ -209,21 +196,9 @@ return {
         },
       },
     }
-    -- Ensure the servers and tools above are installed
-    --  To check the current status of installed tools and/or manually install
-    --  other tools, you can run
-    --    :Mason
-    --
-    --  You can press `g?` for help in this menu.
-    require("mason").setup()
 
-    -- You can add other tools here that you want Mason to install
-    -- for you, so that they are available from within Neovim.
-    -- local ensure_installed = vim.tbl_keys(servers or {})
-    -- vim.list_extend(ensure_installed, {
-    --   "stylua", -- Used to format Lua code
-    -- })
-    -- require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+    -- is this line ever needed here ??
+    require("mason").setup()
 
     require("mason-lspconfig").setup({
       handlers = {
@@ -238,81 +213,25 @@ return {
       },
     })
     -- end,
+    vim.diagnostic.config({
+      virtual_text = {
+        source = "if_many", -- Or "if_many"
+        prefix = "●", -- Could be '■', '▎', 'x'
+      },
+      severity_sort = true,
+      float = {
+        source = "if_many", -- Or "if_many"
+        border = "rounded",
+        header = "",
+        prefix = "",
+      },
+      update_in_insert = false,
+    })
+
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
-
-    -- mason_lspconfig.setup_handlers({
-    -- default handler for installed servers
-    -- function(server_name)
-    --   lspconfig[server_name].setup({
-    --     capabilities = capabilities,
-    --   })
-    -- end,
-    -- ["svelte"] = function()
-    --   -- configure svelte server
-    --   lspconfig["svelte"].setup({
-    --     capabilities = capabilities,
-    --     on_attach = function(client, bufnr)
-    --       vim.api.nvim_create_autocmd("BufWritePost", {
-    --         pattern = { "*.js", "*.ts" },
-    --         callback = function(ctx)
-    --           -- Here use ctx.match instead of ctx.file
-    --           client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-    --         end,
-    --       })
-    --     end,
-    --   })
-    -- end,
-    -- ["gopls"] = function()
-    --   -- configure graphql language server
-    --   lspconfig["gopls"].setup({
-    --     capabilities = capabilities,
-    --     -- filetypes = {"python"},
-    --   })
-    -- end,
-    -- ["pyright"] = function()
-    --   -- configure graphql language server
-    --   lspconfig["pyright"].setup({
-    --     capabilities = capabilities,
-    --     -- filetypes = {"python"},
-    --   })
-    -- end,
-    -- ["emmet_ls"] = function()
-    --   -- configure emmet language server
-    --   lspconfig["emmet_ls"].setup({
-    --     capabilities = capabilities,
-    --     filetypes = {
-    --       "html",
-    --       "typescriptreact",
-    --       "javascriptreact",
-    --       "css",
-    --       "sass",
-    --       "scss",
-    --       "less",
-    --       "svelte",
-    --     },
-    --   })
-    -- end,
-    -- ["lua_ls"] = function()
-    --   -- configure lua server (with special settings)
-    --   lspconfig["lua_ls"].setup({
-    --     capabilities = capabilities,
-    --     settings = {
-    --       Lua = {
-    --         -- make the language server recognize "vim" global
-    --         diagnostics = {
-    --           globals = { "vim" },
-    --         },
-    --         completion = {
-    --           callSnippet = "Replace",
-    --         },
-    --       },
-    --     },
-    --   })
-    -- end,
-    -- })
   end,
 }

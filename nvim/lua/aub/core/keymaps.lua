@@ -4,9 +4,6 @@ vim.g.maplocalleader = " "
 
 local keymap = vim.keymap -- for conciseness
 
----------------------
--- General Keymaps -------------------
-
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
@@ -22,15 +19,11 @@ keymap.set("i", "<C-e>", "<C-o>A") -- Use ctl-e to move to the end of line when 
 -- clear search highlights
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 -- Clear highlights on search when pressing <Esc> in normal mode
---  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Switch between buffers using left and right arrows
 keymap.set("n", "<left>", ":bp<cr>")
 keymap.set("n", "<right>", ":bn<cr>")
-
--- delete single character without copying into register
--- keymap.set("n", "x", '"_x')
 
 -- increment/decrement numbers
 -- keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment

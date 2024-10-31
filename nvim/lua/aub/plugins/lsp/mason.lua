@@ -3,7 +3,6 @@ return {
   enabled = true,
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
-    -- "jayp0521/mason-null-ls.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
@@ -13,8 +12,6 @@ return {
     -- import mason-lspconfig plugin safely
     local mason_lspconfig = require("mason-lspconfig")
 
-    -- import mason-null-ls plugin safely
-    -- local mason_null_ls = require("mason-null-ls")
     local mason_tool_installer = require("mason-tool-installer")
 
     -- enable mason
@@ -42,7 +39,7 @@ return {
         -- "prismals",
       },
       -- auto-install configured servers (with lspconfig)
-      -- automatic_installation = true, -- not the same as ensure_installed
+      automatic_installation = true, -- not the same as ensure_installed
     })
 
     mason_tool_installer.setup({
@@ -56,23 +53,11 @@ return {
         "eslint_d",
         "flake8",
         "golangci-lint",
-        "golangci-lint-langserver",
+        -- "golangci-lint-langserver",
+        "goimports",
+        "gomodifytags",
+        "impl",
       },
     })
-    -- mason_null_ls.setup({
-    -- 	-- list of formatters & linters for mason to install
-    -- 	ensure_installed = {
-    -- 		"prettier", -- ts/js formatter
-    -- 		"stylua", -- lua formatter
-    -- 		"black",
-    -- 		"isort",
-    -- 		"gofumpt",
-    -- 		"eslint_d", -- ts/js linter
-    -- 		"flake8",
-    -- 		-- "ruff",
-    -- 	},
-    -- 	-- auto-install configured servers (with lspconfig)
-    -- 	automatic_installation = true,
-    -- })
   end,
 }

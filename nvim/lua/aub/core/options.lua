@@ -62,7 +62,7 @@ opt.scrolloff = 3
 
 -- Set an undo file to keep history of changes
 -- set undodir=~/.vim/undodir
-opt.undodir = { vim.fn.stdpath("config") .. "/undodir" }
+opt.undodir = vim.fn.stdpath("config") .. "/undodir"
 -- opt.undodir = "~/.config/nvim/undodir"
 opt.undofile = true
 -- Decrease update time

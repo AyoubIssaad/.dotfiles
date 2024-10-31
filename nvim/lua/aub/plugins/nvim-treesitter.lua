@@ -6,6 +6,7 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
+      -- "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
       -- import nvim-treesitter plugin
@@ -15,6 +16,7 @@ return {
       treesitter.setup({ -- enable syntax highlighting
         highlight = {
           enable = true,
+          additional_vim_regex_highlighting = false,
         },
         -- enable indentation
         indent = { enable = true, disable = { "python" } },
@@ -36,7 +38,7 @@ return {
           "typescript",
           "terraform",
           "hcl",
-          -- "tsx",
+          "tsx",
           "yaml",
           "html",
           "c",
@@ -46,6 +48,9 @@ return {
           "rust",
           "comment",
           "go",
+          "gomod",
+          "gowork",
+          "gosum",
           "markdown",
           "markdown_inline",
           "query",
@@ -63,10 +68,16 @@ return {
           "python",
           "diff",
         },
-        -- -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
+        -- Add rainbow parentheses
+        rainbow = {
+          enable = true,
+          extended_mode = true,
+          max_file_lines = 1000,
+        },
+        -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
         -- require("ts_context_commentstring").setup({
-        -- 	enable = true,
-        -- 	enable_autocmd = false,
+        --   enable = true,
+        --   enable_autocmd = false,
         -- }),
         -- auto install above language parsers
         auto_install = true,

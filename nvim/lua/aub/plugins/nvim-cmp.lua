@@ -27,7 +27,6 @@ return {
       },
     },
     "saadparwaiz1/cmp_luasnip",
-
     -- Adds other completion capabilities.
     --  nvim-cmp does not ship with all sources by default. They are split
     --  into multiple repos for maintenance purposes.
@@ -35,6 +34,8 @@ return {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-buffer", -- source for text in buffer
     "onsails/lspkind.nvim", -- vs-code like pictograms
+    "folke/neodev.nvim",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
   },
   config = function()
     local cmp = require("cmp")
@@ -55,6 +56,10 @@ return {
         expand = function(args)
           luasnip.lsp_expand(args.body)
         end,
+      },
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
       },
       mapping = cmp.mapping.preset.insert({
         ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
@@ -77,6 +82,7 @@ return {
       }),
       -- sources for autocompletion
       sources = {
+        { name = "nvim_lsp_signature_help" },
         { name = "lazydev", group_index = 0 },
         { name = "nvim_lsp" }, -- lsp
         { name = "luasnip" }, -- snippets
@@ -86,10 +92,20 @@ return {
       -- configure lspkind for vs-code like icons
       formatting = {
         expandable_indicator = true,
-        fields = { "kind" },
+        fields = { "abbr", "kind", "menu" },
         format = lspkind.cmp_format({
-          maxwidth = 50,
+          mode = "symbol_text",
+          maxwidth = {
+            menu = 50,
+            abbr = 50,
+          },
           ellipsis_char = "...",
+          menu = {
+            buffer = "[Buffer]",
+            nvim_lsp = "[LSP]",
+            luasnip = "[Snippet]",
+            path = "[Path]",
+          },
         }),
       },
     })
