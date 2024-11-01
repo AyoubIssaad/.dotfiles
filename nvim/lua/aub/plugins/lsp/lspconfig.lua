@@ -212,7 +212,37 @@ return {
         end,
       },
     })
-    -- end,
+
+    -- Add this configuration for hover windows
+    -- Set up custom colors for floating windows
+    -- vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]])
+    -- vim.cmd([[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]])
+
+    -- Configure border characters and style
+    local border = {
+      { "🭽", "FloatBorder" },
+      { "▔", "FloatBorder" },
+      { "🭾", "FloatBorder" },
+      { "▕", "FloatBorder" },
+      { "🭿", "FloatBorder" },
+      { "▁", "FloatBorder" },
+      { "🭼", "FloatBorder" },
+      { "▏", "FloatBorder" },
+    }
+
+    -- Configure specific handlers
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+      border = border,
+      max_width = 80,
+      max_height = 25,
+    })
+
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+      border = border,
+      -- max_width = 80,
+      -- max_height = 25,
+    })
+
     vim.diagnostic.config({
       virtual_text = {
         source = "if_many", -- Or "if_many"
@@ -221,12 +251,30 @@ return {
       severity_sort = true,
       float = {
         source = "if_many", -- Or "if_many"
-        border = "rounded",
+        -- border = "rounded",
         header = "",
         prefix = "",
       },
       update_in_insert = false,
+      signs = true,
+      underline = true,
     })
+
+    -- -- Show line diagnostics automatically in hover window
+    -- vim.o.updatetime = 250
+    -- vim.api.nvim_create_autocmd("CursorHold", {
+    --   pattern = "*",
+    --   callback = function()
+    --     vim.diagnostic.open_float(nil, {
+    --       focusable = false,
+    --       close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+    --       border = border,
+    --       source = "always",
+    --       prefix = " ",
+    --       scope = "cursor",
+    --     })
+    --   end,
+    -- })
 
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
     for type, icon in pairs(signs) do
