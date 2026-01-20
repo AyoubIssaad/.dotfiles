@@ -111,41 +111,41 @@ return {
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
     local servers = {
       -- clangd = {},
-      gopls = {
-        settings = {
-          gopls = {
-            analyses = {
-              unusedparams = true,
-              shadow = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            codelenses = {
-              gc_details = true,
-              generate = true,
-              regenerate_cgo = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            experimentalPostfixCompletions = true,
-            staticcheck = true,
-            gofumpt = true,
-            usePlaceholders = true,
-            semanticTokens = true,
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            importShortcut = "Definition",
-          },
-        },
-      },
+      -- gopls = {
+      --   settings = {
+      --     gopls = {
+      --       analyses = {
+      --         unusedparams = true,
+      --         shadow = true,
+      --         unusedwrite = true,
+      --         useany = true,
+      --       },
+      --       codelenses = {
+      --         gc_details = true,
+      --         generate = true,
+      --         regenerate_cgo = true,
+      --         tidy = true,
+      --         upgrade_dependency = true,
+      --         vendor = true,
+      --       },
+      --       experimentalPostfixCompletions = true,
+      --       staticcheck = true,
+      --       gofumpt = true,
+      --       usePlaceholders = true,
+      --       semanticTokens = true,
+      --       hints = {
+      --         assignVariableTypes = true,
+      --         compositeLiteralFields = true,
+      --         compositeLiteralTypes = true,
+      --         constantValues = true,
+      --         functionTypeParameters = true,
+      --         parameterNames = true,
+      --         rangeVariableTypes = true,
+      --       },
+      --       importShortcut = "Definition",
+      --     },
+      --   },
+      -- },
       pyright = {
         settings = {
           python = {
@@ -196,9 +196,6 @@ return {
         },
       },
     }
-
-    -- is this line ever needed here ??
-    require("mason").setup()
 
     require("mason-lspconfig").setup({
       handlers = {

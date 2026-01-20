@@ -30,7 +30,8 @@ keymap.set("n", "<right>", ":bn<cr>")
 -- keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
 
 -- Run Golang using leader+r
-keymap.set("n", "<leader>r", ":! go run %<CR>", { desc = "Run current golang buffer" }) -- split window vertically
+-- keymap.set("n", "<leader>r", ":! go run %<CR>", { desc = "Run current golang buffer" })
+
 -- window management
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally

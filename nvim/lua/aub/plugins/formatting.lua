@@ -46,7 +46,7 @@ return {
       -- graphql = { "prettier" },
       liquid = { "prettier" },
       python = { "isort", "black" },
-      go = { "goimports", "gofumpt" },
+      -- go = { "goimports", "gofumpt" },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
       --

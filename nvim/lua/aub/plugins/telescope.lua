@@ -22,16 +22,31 @@ return {
 
     local transform_mod = require("telescope.actions.mt").transform_mod
 
-    local trouble = require("trouble")
-    local trouble_telescope = require("trouble.sources.telescope")
+    local trouble_ok, trouble = pcall(require, "trouble")
+    local trouble_telescope_ok, trouble_telescope = pcall(require, "trouble.sources.telescope")
+    local function toggle_trouble_qflist()
+      if not trouble_ok then
+        return
+      end
+      if not pcall(trouble.toggle, "quickfix") then
+        pcall(trouble.toggle, { mode = "quickfix" })
+      end
+    end
     -- or create your custom action
     local custom_actions = transform_mod({
-      open_trouble_qflist = function(prompt_bufnr)
-        trouble.toggle("quickfix")
-      end,
+      open_trouble_qflist = toggle_trouble_qflist,
     })
     -- import telescope-ui-select safely
     local themes = require("telescope.themes")
+
+    local insert_mappings = {
+      ["<C-k>"] = actions.move_selection_previous, -- move to prev result
+      ["<C-j>"] = actions.move_selection_next, -- move to next result
+      ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist, -- send selected to quickfixlist
+    }
+    if trouble_telescope_ok then
+      insert_mappings["<C-t>"] = trouble_telescope.open
+    end
 
     -- configure telescope
     telescope.setup({
@@ -39,12 +54,7 @@ return {
       defaults = {
         path_display = { "smart" },
         mappings = {
-          i = {
-            ["<C-k>"] = actions.move_selection_previous, -- move to prev result
-            ["<C-j>"] = actions.move_selection_next, -- move to next result
-            ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist, -- send selected to quickfixlist
-            ["<C-t>"] = trouble_telescope.open,
-          },
+          i = insert_mappings,
         },
       },
       extensions = {

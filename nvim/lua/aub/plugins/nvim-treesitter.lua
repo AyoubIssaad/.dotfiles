@@ -1,14 +1,16 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
     event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
       "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()
+      vim.g.skip_ts_context_commentstring_module = true
+
       -- import nvim-treesitter plugin
       local treesitter = require("nvim-treesitter.configs")
 
@@ -47,10 +49,10 @@ return {
           "css",
           "rust",
           "comment",
-          "go",
-          "gomod",
-          "gowork",
-          "gosum",
+          -- "go",
+          -- "gomod",
+          -- "gowork",
+          -- "gosum",
           "markdown",
           "markdown_inline",
           "query",
@@ -68,17 +70,11 @@ return {
           "python",
           "diff",
         },
-        -- Add rainbow parentheses
-        rainbow = {
-          enable = true,
-          extended_mode = true,
-          max_file_lines = 1000,
-        },
-        -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
-        require("ts_context_commentstring").setup({
-          enable = true,
-          enable_autocmd = false,
-        }),
+      -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
+      require("ts_context_commentstring").setup({
+        enable = true,
+        enable_autocmd = false,
+      }),
         -- auto install above language parsers
         auto_install = true,
       })

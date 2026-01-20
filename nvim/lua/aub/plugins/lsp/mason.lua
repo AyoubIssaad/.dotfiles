@@ -31,7 +31,7 @@ return {
         -- "tsserver",
         "html",
         -- "cssls",
-        "gopls",
+        -- "gopls",
         "lua_ls",
         "emmet_ls",
         "pyright",
@@ -49,14 +49,14 @@ return {
         "isort", -- python formatter
         "black", -- python formatter
         "pylint",
-        "gofumpt",
+        -- "gofumpt",
         "eslint_d",
         "flake8",
-        "golangci-lint",
+        -- "golangci-lint",
         -- "golangci-lint-langserver",
-        "goimports",
-        "gomodifytags",
-        "impl",
+        -- "goimports",
+        -- "gomodifytags",
+        -- "impl",
       },
     })
   end,
