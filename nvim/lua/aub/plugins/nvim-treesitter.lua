@@ -13,6 +13,11 @@ return {
 
       -- import nvim-treesitter plugin
       local treesitter = require("nvim-treesitter.configs")
+      -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
+      require("ts_context_commentstring").setup({
+        enable = true,
+        enable_autocmd = false,
+      })
 
       -- configure treesitter
       treesitter.setup({ -- enable syntax highlighting
@@ -70,11 +75,6 @@ return {
           "python",
           "diff",
         },
-      -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
-      require("ts_context_commentstring").setup({
-        enable = true,
-        enable_autocmd = false,
-      }),
         -- auto install above language parsers
         auto_install = true,
       })

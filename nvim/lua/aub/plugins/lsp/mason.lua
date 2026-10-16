@@ -38,8 +38,8 @@ return {
         -- "ruff_lsp",
         -- "prismals",
       },
-      -- auto-install configured servers (with lspconfig)
-      automatic_installation = true, -- not the same as ensure_installed
+      -- LSP servers are configured and enabled in lspconfig.lua.
+      automatic_enable = false,
     })
 
     mason_tool_installer.setup({

@@ -11,6 +11,17 @@ return {
     -- { "folke/neodev.nvim", opts = {} },
   },
   config = function()
+    local border = {
+      { "🭽", "FloatBorder" },
+      { "▔", "FloatBorder" },
+      { "🭾", "FloatBorder" },
+      { "▕", "FloatBorder" },
+      { "🭿", "FloatBorder" },
+      { "▁", "FloatBorder" },
+      { "🭼", "FloatBorder" },
+      { "▏", "FloatBorder" },
+    }
+
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
       callback = function(event)
@@ -49,9 +60,19 @@ return {
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
         map("<leader>D", require("telescope.builtin").diagnostics, "Show buffer diagnostics")
         map("<leader>d", vim.diagnostic.open_float, "Show line diagnostics")
-        map("[d", vim.diagnostic.goto_prev, "Go to previous diagnostic")
-        map("]d", vim.diagnostic.goto_next, "Go to next diagnostic")
-        map("K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
+        map("[d", function()
+          vim.diagnostic.jump({ count = -1 })
+        end, "Go to previous diagnostic")
+        map("]d", function()
+          vim.diagnostic.jump({ count = 1 })
+        end, "Go to next diagnostic")
+        map("K", function()
+          vim.lsp.buf.hover({
+            border = border,
+            max_width = 80,
+            max_height = 25,
+          })
+        end, "Show documentation for what is under cursor")
         map("<leader>rs", ":LspRestart<CR>", "Restart LSP")
 
         -- The following two autocommands are used to highlight references of the
@@ -59,7 +80,7 @@ return {
         --    See `:help CursorHold` for information about when this is executed
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+        if client and client.supports_method("textDocument/documentHighlight") then
           local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
           vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
             buffer = event.buf,
@@ -85,7 +106,7 @@ return {
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+        if client and client.supports_method("textDocument/inlayHint") then
           map("<leader>th", function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
           end, "[T]oggle Inlay [H]ints")
@@ -181,6 +202,8 @@ return {
         },
       },
 
+      html = {},
+
       lua_ls = {
         -- cmd = {...},
         -- filetypes = { ...},
@@ -197,48 +220,16 @@ return {
       },
     }
 
-    require("mason-lspconfig").setup({
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for ts_ls)
-          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-          require("lspconfig")[server_name].setup(server)
-        end,
-      },
-    })
+    for server_name, server in pairs(servers) do
+      server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+      vim.lsp.config(server_name, server)
+      vim.lsp.enable(server_name)
+    end
 
     -- Add this configuration for hover windows
     -- Set up custom colors for floating windows
     -- vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]])
     -- vim.cmd([[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]])
-
-    -- Configure border characters and style
-    local border = {
-      { "🭽", "FloatBorder" },
-      { "▔", "FloatBorder" },
-      { "🭾", "FloatBorder" },
-      { "▕", "FloatBorder" },
-      { "🭿", "FloatBorder" },
-      { "▁", "FloatBorder" },
-      { "🭼", "FloatBorder" },
-      { "▏", "FloatBorder" },
-    }
-
-    -- Configure specific handlers
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-      border = border,
-      max_width = 80,
-      max_height = 25,
-    })
-
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-      border = border,
-      -- max_width = 80,
-      -- max_height = 25,
-    })
 
     vim.diagnostic.config({
       virtual_text = {
@@ -253,7 +244,19 @@ return {
         prefix = "",
       },
       update_in_insert = false,
-      signs = true,
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = " ",
+          [vim.diagnostic.severity.WARN] = " ",
+          [vim.diagnostic.severity.HINT] = "󰠠 ",
+          [vim.diagnostic.severity.INFO] = " ",
+        },
+      },
+      jump = {
+        on_jump = function(_, bufnr)
+          vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+        end,
+      },
       underline = true,
     })
 
@@ -273,10 +276,5 @@ return {
     --   end,
     -- })
 
-    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
   end,
 }
